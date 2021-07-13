@@ -1,16 +1,31 @@
 import "reflect-metadata"
 import express, { Request, Response } from "express"
+import "express-async-errors"
+
+require('dotenv/config')
 
 import "./database"
+import { router } from "./routes"
+import { NextFunction } from "express-serve-static-core"
 
 const app = express()
 
-app.post('/', (request: Request, response: Response) => {
-    return response.json({
-        message: 'Hello World'
+app.use(express.json())
+
+app.use(router)
+
+app.use((error: Error, request: Request, response: Response, next: NextFunction) => {
+    if(error instanceof Error){
+        return response.status(400).json({
+            message: error.message
+        })
+    }
+
+    return response.status(500).json({
+        message: "Internal Server Error"
     })
 })
 
-app.listen(6000, () => {
-    console.log("Server is running")
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running: ${process.env.PORT}`)
 })

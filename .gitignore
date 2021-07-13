@@ -9,5 +9,8 @@ lerna-debug.log*
 # Dependency directories
 node_modules/
 
-#Config Files
+# Config Files
 ormconfig.json
+
+# Env Files
+.env
