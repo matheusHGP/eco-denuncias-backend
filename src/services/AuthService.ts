@@ -17,7 +17,7 @@ class AuthService {
             throw new Error('Usuário ou senha incorretos')
         }
 
-        const checkedPassword = compare(password, user.password)
+        const checkedPassword = await compare(password, user.password)
         if (!checkedPassword) {
             throw new Error('Usuário ou senha incorretos')
         }

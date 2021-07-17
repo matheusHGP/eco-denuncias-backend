@@ -56,22 +56,15 @@ class UsersAdminService {
             throw new Error('Usuário não encontrado')
         }
 
-        console.log(userAdminExists.password)
-        const hashPassword = await hash(password, 8)
-        console.log(hashPassword)
-
-        const checkedPassword = await compare(userAdminExists.password, hashPassword)
-        console.log(checkedPassword)
+        const checkedPassword = await compare(password, userAdminExists.password)
         if (!checkedPassword) {
             throw new Error('Senha incorreta')
         }
 
         const hashNewPassword = await hash(new_password, 8)
-
         userAdminExists = { ...userAdminExists, name, email, chapa, password: hashNewPassword }
 
         const userAdmin = await usersAdminRepository.save(userAdminExists)
-        console.log(userAdmin)
         return userAdmin
     }
 }
