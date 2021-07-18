@@ -10,7 +10,7 @@ class problems {
     description: string;
 
     @Column()
-    status: string;
+    status: number;
 
     @Column()
     hash_image: string;

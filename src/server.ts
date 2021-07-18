@@ -26,6 +26,6 @@ app.use((error: Error, request: Request, response: Response, next: NextFunction)
     })
 })
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is running: ${process.env.PORT}`)
+app.listen(6000, () => {
+    console.log(`Server is running: 6000`)
 })

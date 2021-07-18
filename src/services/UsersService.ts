@@ -38,6 +38,17 @@ class UsersService {
 
         return user
     }
+
+    async find(id: string){
+        const usersRepositorys = getCustomRepository(UsersRepository)
+        const userExists = await usersRepositorys.findOne({ id })
+
+        if (!userExists) {
+            throw new Error('Usuário não encontrado')
+        }
+
+        return userExists
+    }
 }
 
 export {

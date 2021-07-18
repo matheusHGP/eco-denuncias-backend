@@ -1,7 +1,9 @@
-import { Column, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { occurrences } from "./occurrences";
+import { v4 as uuid } from 'uuid'
 
-class photos {
+@Entity('photos')
+class Photos {
 
     @PrimaryColumn()
     id: string;
@@ -16,12 +18,19 @@ class photos {
     is_occurrence: boolean;
     
     @Column()
-    occurrence_id: string
+    occurrence_id: string;
 
-    // @ManyToOne(() => occurrences, occurrence => occurrence.photos)
-    // occurrences: occurrences
+    @JoinColumn({name: 'occurrence_id'})
+    @ManyToOne(() => occurrences, occurrences => occurrences.photos)
+    occurrence: occurrences;
+
+    constructor() {
+        if (!this.id) {
+            this.id = uuid()
+        }
+    }
 }
 
 export {
-    photos
+    Photos
 }

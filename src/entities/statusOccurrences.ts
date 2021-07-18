@@ -10,6 +10,9 @@ class statusOccurrences {
     @Column()
     description: string;
 
+    @Column()
+    value: number
+
     constructor() {
         if (!this.id) {
             this.id = uuid()

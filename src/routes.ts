@@ -20,16 +20,12 @@ const authAdminController = new AuthAdminController()
 
 router.post('/auth', authController.handle)
 router.post('/users', checkSchema(createUsersPayload), usersController.create)
-router.post('/occurrences', occurrencesController.create)
-router.post('/teste_admin', ensureAdminAuthenticated, (request: Request, response: Response) => {
-    return response.json({
-        message: 'logou com sucesso !'
-    })
-})
+router.post('/occurrences', ensureAuthenticated, occurrencesController.create)
 
 router.post('/auth_admin', authAdminController.handle)
 router.post('/users_admin', usersAdminController.create)
-router.put('/users_admin/:id', usersAdminController.update)
+router.put('/users_admin/:id', ensureAdminAuthenticated, usersAdminController.update)
+router.put('/occurrences/:id', ensureAdminAuthenticated, occurrencesController.update)
 
 router.post('/teste', ensureAuthenticated, (request: Request, response: Response) => {
     return response.json({

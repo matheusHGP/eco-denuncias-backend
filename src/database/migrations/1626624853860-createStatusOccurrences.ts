@@ -14,6 +14,10 @@ export class createStatusOccurrences1626624853860 implements MigrationInterface 
                 {
                     name: 'description',
                     type: 'varchar',
+                },
+                {
+                    name: 'value',
+                    type: 'integer',
                 }
             ]
         }))
