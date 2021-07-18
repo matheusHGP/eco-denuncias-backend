@@ -7,17 +7,20 @@ import { ensureAuthenticated } from './middlewares/ensureAuthenticated'
 import { UsersAdminController } from './controllers/UsersAdminController'
 import { AuthAdminController } from './controllers/AuthAdminController'
 import { ensureAdminAuthenticated } from './middlewares/ensureAdminAuthenticated'
+import { OccurrencesController } from './controllers/OccurrencesController'
 
 const router = Router()
 
 const usersController = new UsersController()
 const authController = new AuthController()
+const occurrencesController = new OccurrencesController()
 
 const usersAdminController = new UsersAdminController()
 const authAdminController = new AuthAdminController()
 
 router.post('/auth', authController.handle)
 router.post('/users', checkSchema(createUsersPayload), usersController.create)
+router.post('/occurrences', occurrencesController.create)
 router.post('/teste_admin', ensureAdminAuthenticated, (request: Request, response: Response) => {
     return response.json({
         message: 'logou com sucesso !'
