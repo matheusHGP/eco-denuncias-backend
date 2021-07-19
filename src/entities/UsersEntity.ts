@@ -10,7 +10,13 @@ class Users {
     name: string;
 
     @Column()
+    last_name: string;
+
+    @Column()
     email: string;
+
+    @Column()
+    whatsapp: string;
 
     @Column()
     password: string;

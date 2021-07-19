@@ -6,9 +6,18 @@ const usersService = new UsersService()
 
 class UsersController {
     async create(request: Request, response: Response) {
-        const { name, email, password, copy_password, cpf, cep } = request.body
+        const { name, email, last_name, whatsapp, password, copy_password, cpf, cep } = request.body
 
-        const user = await usersService.create({ name, email, password, copy_password, cpf, cep })
+        const user = await usersService.create({ name, email, last_name, whatsapp, password, copy_password, cpf, cep })
+
+        return response.json(new UsersSchema(user))
+    }
+
+    async update(request: Request, response: Response) {
+        const { id } = request.params
+        const { name, email, last_name, whatsapp, password, new_password, cpf, cep } = request.body
+
+        const user = await usersService.update(id, { name, email, last_name, whatsapp, password, new_password, cpf, cep })
 
         return response.json(new UsersSchema(user))
     }
