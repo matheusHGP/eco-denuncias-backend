@@ -8,7 +8,6 @@ interface IUserPayload {
     last_name: string;
     whatsapp: string;
     password: string;
-    copy_password: string;
     cpf: string;
     cep: string;
 }
@@ -25,16 +24,14 @@ interface IUserPayloadPut {
 }
 
 class UsersService {
-    async create({ name, email, last_name, whatsapp, password, copy_password, cpf, cep }: IUserPayload) {
+    async create({ name, email, last_name, whatsapp, password, cpf, cep }: IUserPayload) {
         const usersRepositorys = getCustomRepository(UsersRepository)
-        const userExists = await usersRepositorys.findOne({ email })
+        let userExists = await usersRepositorys.findOne({ email })
+        userExists = await usersRepositorys.findOne({ whatsapp })
+        userExists = await usersRepositorys.findOne({ cpf })
 
         if (userExists) {
-            throw new Error('Usuário já cadastrado com esse email')
-        }
-
-        if (password !== copy_password) {
-            throw new Error('As senhas devem ser iguais')
+            throw new Error('Usuário já cadastrado essas informações')
         }
 
         const hashPassword = await hash(password, 8)

@@ -22,12 +22,20 @@ const problemsController = new ProblemsController()
 const usersAdminController = new UsersAdminController()
 const authAdminController = new AuthAdminController()
 
+//auth
 router.post('/auth', authController.handle)
-router.post('/users', checkSchema(createUsersPayload), usersController.create)
+
+//user
+router.post('/users', usersController.create)
 router.put('/users/:id', ensureAuthenticated, usersController.update)
+router.get('/users/:id', ensureAuthenticated, usersController.getOnly)
+
+//occurrence
 router.post('/occurrences', occurrencesController.create)
 router.get('/occurrences', occurrencesController.getAll)
 router.get('/occurrences/:id', ensureAuthenticated, occurrencesController.getOnly)
+
+//problems
 router.get('/problems', problemsController.getAll)
 
 

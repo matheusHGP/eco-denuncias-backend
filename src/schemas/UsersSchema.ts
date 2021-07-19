@@ -1,4 +1,5 @@
 class UsersSchema {
+    id: string;
     name: string;
     email: string;
     last_name: string;
@@ -8,7 +9,8 @@ class UsersSchema {
     created_at: string;
     updated_at: string;
 
-    constructor({ name, email, last_name, whatsapp, cpf, cep, created_at, updated_at }) {
+    constructor({ id, name, email, last_name, whatsapp, cpf, cep, created_at, updated_at }) {
+        this.id = id
         this.name = name
         this.email = email
         this.last_name = last_name
