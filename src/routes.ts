@@ -25,10 +25,11 @@ const authAdminController = new AuthAdminController()
 router.post('/auth', authController.handle)
 router.post('/users', checkSchema(createUsersPayload), usersController.create)
 router.put('/users/:id', ensureAuthenticated, usersController.update)
-router.post('/occurrences', ensureAuthenticated, occurrencesController.create)
+router.post('/occurrences', occurrencesController.create)
 router.get('/occurrences', occurrencesController.getAll)
 router.get('/occurrences/:id', ensureAuthenticated, occurrencesController.getOnly)
 router.get('/problems', problemsController.getAll)
+
 
 router.post('/auth_admin', authAdminController.handle)
 router.post('/users_admin', usersAdminController.create)
