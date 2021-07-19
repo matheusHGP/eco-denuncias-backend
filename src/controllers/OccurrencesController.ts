@@ -1,6 +1,7 @@
 import { Request, Response, response } from "express"
 import { verify } from "jsonwebtoken"
 import { OccurrencesSchema } from "../schemas/OccurrencesSchema"
+import { OccurrencesAdminService } from "../services/OccurrencesAdminService"
 import { OccurrencesService } from "../services/OccurrencesService"
 
 class OccurrencesController {
@@ -36,16 +37,18 @@ class OccurrencesController {
         return response.json(new OccurrencesSchema(occurrence))
     }
 
-    async update(request: Request, response: Response) {
-        const { status_occurency_id, number_infringement } = request.body
+    async getAll(request: Request, response: Response){
+        const occurrencesService = new OccurrencesService()
+        const occurrences = await occurrencesService.getAll()
+
+        return response.json(occurrences.map(occurrence => new OccurrencesSchema(occurrence)))
+    }
+
+    async getOnly(request: Request, response: Response) {
         const { id } = request.params
 
-        const authToken = request.headers.authorization
-        const [, token] = authToken.split(' ')
-        const tokenDecoded = verify(token, process.env.SECRET_TOKEN_ADMIN_KEY)
-
-        const occurrencesService = new OccurrencesService(tokenDecoded.sub)
-        const occurrence = await occurrencesService.update({ id, status_occurency_id, number_infringement })
+        const occurrencesAdminService = new OccurrencesAdminService()
+        const occurrence = await occurrencesAdminService.getOnly(id)
 
         return response.json(new OccurrencesSchema(occurrence))
     }

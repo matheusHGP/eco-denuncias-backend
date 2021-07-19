@@ -29,54 +29,44 @@ const usersAdminService = new UsersAdminService()
 const problemsService = new ProblemsService()
 const photosServices = new PhotosServices()
 
-class OccurrencesService {
+class OccurrencesAdminService {
     user_id: any
     relations: any[]
 
     constructor(user_id?: any) {
         this.user_id = user_id
-        this.relations = ['user', 'statusOccurrence', 'problem', 'photos']
+        this.relations = ['user', 'userAdmin', 'statusOccurrence', 'problem', 'photos']
     }
 
-    async create({ problem_id, street, neighborhood, number, other_observations, date_occurred, offender_details, photos }: IOccurrencesPayload) {
+    async update({ id, status_occurency_id, number_infringement }) {
         const occurrencesRepository = getCustomRepository(OccurrencesRepository)
         const statusOccurrencesRepository = getCustomRepository(StatusOccurrencesRepository)
 
-        const user = await usersService.find(this.user_id)
+        const occurrenceExists = await occurrencesRepository.findOne({ where: { id }, relations: ['userAdmin', 'user', 'statusOccurrence', 'problem', 'photos'] })
+        console.log('aqui', occurrenceExists)
+        if (!occurrenceExists) {
+            throw new Error('Ocorrência não encontrada')
+        }
 
-        const status = await statusOccurrencesRepository.findOne({
-            value: statusOccurrence.PENDENTE.value
-        })
-        if (!status) {
+        const statusOccurrencyExists = await statusOccurrencesRepository.findOne({ value: status_occurency_id })
+        if (!statusOccurrencyExists) {
             throw new Error('Status não encontrado')
         }
 
-        const problem = await problemsService.find(problem_id)
-        if (!problem) {
-            throw new Error('Problema não encontrado')
+        const user = await usersAdminService.find(this.user_id)
+
+        occurrenceExists.statusOccurrence.id = statusOccurrencyExists.id
+        occurrenceExists.number_infringement = number_infringement
+        occurrenceExists.userAdmin = user
+
+        if (occurrenceExists.photos.length) {
+            await photosServices.delete(occurrenceExists.photos)
+            occurrenceExists.photos = []
         }
 
-        const occurrence = occurrencesRepository.create({
-            statusOccurrence: status,
-            street,
-            neighborhood,
-            number,
-            other_observations,
-            date_occurred,
-            offender_details,
-            user,
-            problem
-        })
+        await occurrencesRepository.save(occurrenceExists)
 
-        await occurrencesRepository.save(occurrence)
-
-        const createdPhotos = await photosServices.createPhotos(
-            photos.map(photo => {
-                return { ...photo, occurrence: occurrence }
-            }))
-
-        occurrence.photos = createdPhotos
-        return occurrence
+        return occurrenceExists
     }
 
     async getAll() {
@@ -95,5 +85,5 @@ class OccurrencesService {
 }
 
 export {
-    OccurrencesService
+    OccurrencesAdminService
 }

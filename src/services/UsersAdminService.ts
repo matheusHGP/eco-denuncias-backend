@@ -67,6 +67,17 @@ class UsersAdminService {
         const userAdmin = await usersAdminRepository.save(userAdminExists)
         return userAdmin
     }
+
+    async find(id: string){
+        const usersRepositorys = getCustomRepository(UsersAdminRepository)
+        const userExists = await usersRepositorys.findOne({ id })
+
+        if (!userExists) {
+            throw new Error('Usuário não encontrado')
+        }
+
+        return userExists
+    }
 }
 
 export {

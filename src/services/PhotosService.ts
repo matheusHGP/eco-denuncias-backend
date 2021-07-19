@@ -18,19 +18,26 @@ class PhotosServices {
         return photo
     }
 
-    async createPhotos(photos: Photos[]){
+    async createPhotos(photos: Photos[]) {
         const photosRepository = getCustomRepository(PhotosRepository)
         const createdPhotos = await photosRepository.create(photos)
-        
+
         await photosRepository.save(createdPhotos)
         return createdPhotos
     }
 
-    async delete(photos: Photos[]){
+    async delete(photos: Photos[]) {
         const photosRepository = getCustomRepository(PhotosRepository)
         const deletedPhotos = await photosRepository.delete(photos.map(photo => photo.id))
-        
+
         return deletedPhotos
+    }
+
+    async findAllByOccurrenceId(occurrence_id: string) {
+        const photosRepository = getCustomRepository(PhotosRepository)
+        console.log(occurrence_id)
+        const photos = await photosRepository.find({ where: {occurrence_id} })
+        return photos
     }
 }
 
