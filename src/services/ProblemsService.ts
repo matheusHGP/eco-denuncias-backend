@@ -12,6 +12,17 @@ class ProblemsService {
 
         return problemExists
     }
+
+    async getAll() {
+        const problemsRepository = getCustomRepository(ProblemsRepository)
+        const problems = await problemsRepository.find({
+            where: {
+                status: 1
+            }
+        })
+
+        return problems
+    }
 }
 
 export {

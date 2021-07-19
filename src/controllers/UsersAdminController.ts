@@ -21,6 +21,22 @@ class UsersAdminController {
 
         return response.json(new UsersAdminSchema(userAdmin))
     }
+
+    async getAll(request: Request, response: Response) {
+        const usersAdmin = await usersAdminService.findAll()
+
+        return response.json(usersAdmin.map(user => {
+            return new UsersAdminSchema(user)
+        }))
+    }
+
+    async getOnly(request: Request, response: Response) {
+        const { id } = request.params
+
+        const userAdmin = await usersAdminService.find(id)
+
+        return response.json(new UsersAdminSchema(userAdmin))
+    }
 }
 
 export {

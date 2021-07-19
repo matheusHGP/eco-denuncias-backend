@@ -78,6 +78,13 @@ class UsersAdminService {
 
         return userExists
     }
+
+    async findAll(){
+        const usersRepositorys = getCustomRepository(UsersAdminRepository)
+        const usersAdmin = await usersRepositorys.find()
+
+        return usersAdmin
+    }
 }
 
 export {

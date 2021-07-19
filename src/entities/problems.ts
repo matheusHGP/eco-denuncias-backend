@@ -13,6 +13,9 @@ class problems {
     status: number;
 
     @Column()
+    explication: string;
+
+    @Column()
     hash_image: string;
 
     constructor() {
