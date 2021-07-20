@@ -70,8 +70,6 @@ class OccurrencesService {
 
         await occurrencesRepository.save(occurrence)
 
-        console.log('awdwawadwadwadw')
-
         const createdPhotos = await photosServices.createPhotos(
             photos.map(photo => {
                 return { ...photo, occurrence: occurrence }

@@ -43,7 +43,6 @@ class OccurrencesAdminService {
         const statusOccurrencesRepository = getCustomRepository(StatusOccurrencesRepository)
 
         const occurrenceExists = await occurrencesRepository.findOne({ where: { id }, relations: ['userAdmin', 'user', 'statusOccurrence', 'problem', 'photos'] })
-        console.log('aqui', occurrenceExists)
         if (!occurrenceExists) {
             throw new Error('Ocorrência não encontrada')
         }

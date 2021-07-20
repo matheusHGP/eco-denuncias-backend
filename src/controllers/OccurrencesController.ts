@@ -6,7 +6,6 @@ import { OccurrencesService } from "../services/OccurrencesService"
 
 class OccurrencesController {
     async create(request: Request, response: Response) {
-        console.log('aqui')
         const {
             problem_id,
             street,

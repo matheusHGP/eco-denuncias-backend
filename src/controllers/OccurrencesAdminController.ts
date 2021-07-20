@@ -27,7 +27,6 @@ class OccurrencesAdminController {
             return new OccurrencesAdminSchema(occurrence)
         })
 
-        console.log(occurrencesFormated)
         return response.json(occurrencesFormated)
     }
 

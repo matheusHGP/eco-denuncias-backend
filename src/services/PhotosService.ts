@@ -35,7 +35,6 @@ class PhotosServices {
 
     async findAllByOccurrenceId(occurrence_id: string) {
         const photosRepository = getCustomRepository(PhotosRepository)
-        console.log(occurrence_id)
         const photos = await photosRepository.find({ where: {occurrence_id} })
         return photos
     }
